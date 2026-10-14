@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  contract-workflow-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: shrutigupta/contract-workflow:1.0.0
+    container_name: contract-workflow-container
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT=8080
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 25s
+    restart: unless-stopped
