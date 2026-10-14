@@ -83,6 +83,19 @@ public class ContractService {
         return contractRepository.save(contract);
     }
 
+    @Transactional
+    public void deleteContract(Long id) {
+        contractRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Contract advanceStage(Long id, WorkflowStage newStage) {
+        Contract contract = contractRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Contract not found with id: " + id));
+        contract.setStage(newStage);
+        return contractRepository.save(contract);
+    }
+
     public Map<String, Object> getMetrics() {
         Map<String, Object> metrics = new HashMap<>();
         long total = contractRepository.count();

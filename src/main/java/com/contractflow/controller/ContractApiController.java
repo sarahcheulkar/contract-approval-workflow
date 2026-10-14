@@ -84,6 +84,29 @@ public class ContractApiController {
         }
     }
 
+    @DeleteMapping("/contracts/{id}")
+    public ResponseEntity<?> deleteContract(@PathVariable Long id) {
+        try {
+            contractService.deleteContract(id);
+            return ResponseEntity.ok(Map.of("message", "Contract deleted successfully", "id", id));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
+        }
+    }
+
+    @PutMapping("/contracts/{id}/stage")
+    public ResponseEntity<?> advanceStage(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body) {
+        try {
+            WorkflowStage stage = WorkflowStage.valueOf(body.get("stage"));
+            Contract updated = contractService.advanceStage(id, stage);
+            return ResponseEntity.ok(updated);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
+        }
+    }
+
     @GetMapping("/contracts/metrics")
     public ResponseEntity<Map<String, Object>> getMetrics() {
         return ResponseEntity.ok(contractService.getMetrics());

@@ -133,4 +133,32 @@ public class ContractServiceTest {
         assertNotNull(metrics);
         assertTrue((Long) metrics.get("total") >= 1);
     }
+
+    @Test
+    @DisplayName("Unit Test: Advance workflow stage successfully")
+    public void testAdvanceStage() {
+        Contract contract = new Contract();
+        contract.setTitle("Stage Progression Contract");
+        contract.setVendor("CloudCorp");
+        contract.setCategory("Software");
+        contract.setAmount(50000.0);
+        Contract saved = contractService.createContract(contract);
+
+        Contract advanced = contractService.advanceStage(saved.getId(), WorkflowStage.REVIEW);
+        assertEquals(WorkflowStage.REVIEW, advanced.getStage());
+    }
+
+    @Test
+    @DisplayName("Unit Test: Delete contract successfully")
+    public void testDeleteContract() {
+        Contract contract = new Contract();
+        contract.setTitle("Contract to Delete");
+        contract.setVendor("TempVendor");
+        contract.setCategory("Temporary");
+        contract.setAmount(12000.0);
+        Contract saved = contractService.createContract(contract);
+
+        contractService.deleteContract(saved.getId());
+        assertTrue(contractService.getContractById(saved.getId()).isEmpty());
+    }
 }

@@ -124,10 +124,58 @@
                     </div>
 
                     <!-- Notification Bell -->
-                    <button class="icon-btn" id="notifBellBtn" title="Notifications">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                        <span class="badge-count" id="notifCount">5</span>
-                    </button>
+                    <div style="position: relative;">
+                        <button class="icon-btn" id="notifBellBtn" title="Notifications">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                            <span class="badge-count" id="notifCount">4</span>
+                        </button>
+
+                        <!-- Notification Dropdown -->
+                        <div class="notif-dropdown" id="notifDropdown">
+                            <div class="notif-header">
+                                <span class="notif-title">Activity & Alerts</span>
+                                <button class="notif-clear-btn" id="clearNotifsBtn">Mark all as read</button>
+                            </div>
+                            <div class="notif-list" id="notifList">
+                                <div class="notif-item">
+                                    <div class="notif-icon-circle emerald">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    </div>
+                                    <div class="notif-text">
+                                        <div class="notif-msg"><strong>Jenkins CI/CD:</strong> Build #5 deployed with 10 green stages.</div>
+                                        <div class="notif-time">10 mins ago</div>
+                                    </div>
+                                </div>
+                                <div class="notif-item">
+                                    <div class="notif-icon-circle blue">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                                    </div>
+                                    <div class="notif-text">
+                                        <div class="notif-msg"><strong>New Contract:</strong> CT-101 requires legal review.</div>
+                                        <div class="notif-time">25 mins ago</div>
+                                    </div>
+                                </div>
+                                <div class="notif-item">
+                                    <div class="notif-icon-circle amber">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                    </div>
+                                    <div class="notif-text">
+                                        <div class="notif-msg"><strong>Upcoming Due:</strong> CT-107 expires in 2 days.</div>
+                                        <div class="notif-time">1 hour ago</div>
+                                    </div>
+                                </div>
+                                <div class="notif-item">
+                                    <div class="notif-icon-circle purple">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                    </div>
+                                    <div class="notif-text">
+                                        <div class="notif-msg"><strong>Quality Gate:</strong> 5 Selenium E2E journeys passed.</div>
+                                        <div class="notif-time">2 hours ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Primary Action Button: + New Contract -->
                     <button class="btn btn-primary btn-glow" id="newContractBtn">
@@ -531,11 +579,15 @@
                     </div>
 
                     <div class="toolbar-filters">
-                        <button class="filter-btn active" data-filter="ALL" id="filterBtnAll">All</button>
-                        <button class="filter-btn" data-filter="SUBMITTED" id="filterBtnSubmitted">Submitted</button>
-                        <button class="filter-btn" data-filter="UNDER_REVIEW" id="filterBtnReview">Under Review</button>
-                        <button class="filter-btn" data-filter="APPROVED" id="filterBtnApproved">Approved</button>
-                        <button class="filter-btn" data-filter="REJECTED" id="filterBtnRejected">Rejected</button>
+                        <button class="filter-btn active" data-filter="ALL" id="filterBtnAll">All (<span id="countPillAll">8</span>)</button>
+                        <button class="filter-btn" data-filter="SUBMITTED" id="filterBtnSubmitted">Submitted (<span id="countPillSubmitted">2</span>)</button>
+                        <button class="filter-btn" data-filter="UNDER_REVIEW" id="filterBtnReview">Under Review (<span id="countPillReview">1</span>)</button>
+                        <button class="filter-btn" data-filter="APPROVED" id="filterBtnApproved">Approved (<span id="countPillApproved">4</span>)</button>
+                        <button class="filter-btn" data-filter="REJECTED" id="filterBtnRejected">Rejected (<span id="countPillRejected">1</span>)</button>
+                        <button class="btn-toolbar-action" id="exportCsvBtn" title="Export to CSV spreadsheet">
+                            <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            <span>Export CSV</span>
+                        </button>
                     </div>
                 </div>
 
@@ -699,6 +751,546 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                     <span>Approve Contract</span>
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 3: CONTRACT DETAILS & CLAUSES ==================== -->
+    <div class="modal-backdrop" id="detailsModal">
+        <div class="modal-card modal-anim-up" style="max-width: 680px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(99, 102, 241, 0.12); color: #6366F1;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title" id="detailsModalTitle">Contract Details</h3>
+                        <p class="modal-subtitle">Comprehensive legal summary, milestone dates, and audit trail</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeDetailsModalBtn">&times;</button>
+            </div>
+
+            <div class="review-details-grid">
+                <div class="detail-box">
+                    <span class="detail-label">Contract ID</span>
+                    <span class="detail-value text-mono" id="detailsId">CT-101</span>
+                </div>
+                <div class="detail-box">
+                    <span class="detail-label">Vendor / Counterparty</span>
+                    <span class="detail-value" id="detailsVendor">AWS Corp</span>
+                </div>
+                <div class="detail-box">
+                    <span class="detail-label">Category</span>
+                    <span class="detail-value" id="detailsCategory">Software & Cloud</span>
+                </div>
+                <div class="detail-box">
+                    <span class="detail-label">Contract Value</span>
+                    <span class="detail-value text-emerald font-bold" id="detailsAmount">$12,500.00</span>
+                </div>
+                <div class="detail-box">
+                    <span class="detail-label">Current Stage</span>
+                    <span class="detail-value" id="detailsStage"><span class="stage-pill">INITIATION</span></span>
+                </div>
+                <div class="detail-box">
+                    <span class="detail-label">Approval Status</span>
+                    <span class="detail-value" id="detailsStatus"><span class="badge badge-submitted">Submitted</span></span>
+                </div>
+                <div class="detail-box">
+                    <span class="detail-label">Due / Renewal Date</span>
+                    <span class="detail-value" id="detailsDueDate">2026-11-15</span>
+                </div>
+                <div class="detail-box">
+                    <span class="detail-label">Last Reviewed By</span>
+                    <span class="detail-value" id="detailsReviewedBy">Pending Review</span>
+                </div>
+            </div>
+
+            <div class="review-terms-box" style="margin-top: 14px;">
+                <span class="detail-label">Commercial Scope & Terms</span>
+                <p class="terms-text" id="detailsDescription">Multi-region cloud hosting and SLA agreement.</p>
+            </div>
+
+            <div class="review-terms-box" style="margin-top: 10px; background: rgba(99, 102, 241, 0.04); border-color: rgba(99, 102, 241, 0.15);">
+                <span class="detail-label">Reviewer Notes & Decision Rationale</span>
+                <p class="terms-text" id="detailsNotes">No review notes recorded yet.</p>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" onclick="window.print()">
+                    <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    <span>Print Summary</span>
+                </button>
+                <button type="button" class="btn btn-primary" id="closeDetailsModalBtn2">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 4: TASKS ASSIGNED TO YOU ==================== -->
+    <div class="modal-backdrop" id="tasksModal">
+        <div class="modal-card modal-anim-up" style="max-width: 640px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(245, 158, 11, 0.12); color: #F59E0B;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Actionable Tasks</h3>
+                        <p class="modal-subtitle">Contracts currently awaiting review, approval, or executive decisions</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeTasksModalBtn">&times;</button>
+            </div>
+
+            <div id="tasksModalList" style="display: flex; flex-direction: column; gap: 10px; margin-top: 14px; max-height: 380px; overflow-y: auto;">
+                <!-- Populated dynamically by app.js -->
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" id="closeTasksModalBtn2">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 5: ENTERPRISE ANALYTICS ==================== -->
+    <div class="modal-backdrop" id="analyticsModal">
+        <div class="modal-card modal-anim-up" style="max-width: 680px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(16, 185, 129, 0.12); color: #10B981;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Contract Portfolio Analytics</h3>
+                        <p class="modal-subtitle">Financial commitments, category allocations, and approval efficiency</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeAnalyticsModalBtn">&times;</button>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="stat-box">
+                    <span class="stat-val" id="analyticsTotalValue">$0</span>
+                    <span class="stat-lbl">Total Value</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-val" id="analyticsAvgValue">$0</span>
+                    <span class="stat-lbl">Average Value</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-val" id="analyticsApprovalRate">0%</span>
+                    <span class="stat-lbl">Approval Rate</span>
+                </div>
+            </div>
+
+            <h4 style="font-size: 0.88rem; font-weight: 700; color: #1E293B; margin-bottom: 12px;">Spending Breakdown by Category</h4>
+            <div class="category-breakdown-list" id="analyticsCategoryList">
+                <!-- Populated dynamically by app.js -->
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" id="closeAnalyticsModalBtn2">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 6: REPORTS & EXPORT CENTER ==================== -->
+    <div class="modal-backdrop" id="reportsModal">
+        <div class="modal-card modal-anim-up" style="max-width: 580px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(59, 130, 246, 0.12); color: #3B82F6;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Reports & Data Export</h3>
+                        <p class="modal-subtitle">Generate spreadsheets and compliance documentation</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeReportsModalBtn">&times;</button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-md);">
+                    <div>
+                        <div style="font-weight: 700; color: #0F172A; font-size: 0.9rem;">Full Contracts Registry (CSV)</div>
+                        <div style="color: #64748B; font-size: 0.78rem;">Download complete spreadsheet with all contract values, stages, and reviewers.</div>
+                    </div>
+                    <button class="btn btn-primary" id="downloadCsvReportBtn" style="padding: 7px 14px; font-size: 0.8rem;">
+                        <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span>Download</span>
+                    </button>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-md);">
+                    <div>
+                        <div style="font-weight: 700; color: #0F172A; font-size: 0.9rem;">Printable Audit Dossier</div>
+                        <div style="color: #64748B; font-size: 0.78rem;">Generate formatted print view for internal compliance and executive reporting.</div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="window.print()" style="padding: 7px 14px; font-size: 0.8rem;">
+                        <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                        <span>Print</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" id="closeReportsModalBtn2">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 7: CONTRACT TEMPLATE LIBRARY ==================== -->
+    <div class="modal-backdrop" id="templatesModal">
+        <div class="modal-card modal-anim-up" style="max-width: 720px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(139, 92, 246, 0.12); color: #8B5CF6;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Contract Template Library</h3>
+                        <p class="modal-subtitle">Select a pre-configured enterprise template to auto-populate the initiation form</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeTemplatesModalBtn">&times;</button>
+            </div>
+
+            <div class="templates-grid">
+                <!-- Template 1 -->
+                <div class="template-card" onclick="applyTemplate('cloud')">
+                    <div>
+                        <div class="template-header">
+                            <span class="template-badge">Software</span>
+                            <span class="template-val">$45,000</span>
+                        </div>
+                        <h4 class="template-name">Cloud Infrastructure SLA</h4>
+                        <p class="template-desc">Enterprise SLA with 99.99% availability, disaster recovery, and multi-region failover provisions.</p>
+                    </div>
+                    <div class="template-footer">
+                        <span style="font-size: 0.75rem; color: #64748B;">Standard 12 Months</span>
+                        <button class="btn-use-tpl">Use Template &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Template 2 -->
+                <div class="template-card" onclick="applyTemplate('nda')">
+                    <div>
+                        <div class="template-header">
+                            <span class="template-badge">Legal / NDA</span>
+                            <span class="template-val">$5,000</span>
+                        </div>
+                        <h4 class="template-name">Mutual Non-Disclosure Agreement</h4>
+                        <p class="template-desc">Comprehensive two-way proprietary data and IP protection agreement covering proprietary algorithms.</p>
+                    </div>
+                    <div class="template-footer">
+                        <span style="font-size: 0.75rem; color: #64748B;">Standard 24 Months</span>
+                        <button class="btn-use-tpl">Use Template &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Template 3 -->
+                <div class="template-card" onclick="applyTemplate('security')">
+                    <div>
+                        <div class="template-header">
+                            <span class="template-badge">Security</span>
+                            <span class="template-val">$24,000</span>
+                        </div>
+                        <h4 class="template-name">Security & Penetration Audit</h4>
+                        <p class="template-desc">SOC-2 Type II audit, external black-box penetration testing, and code security remediation.</p>
+                    </div>
+                    <div class="template-footer">
+                        <span style="font-size: 0.75rem; color: #64748B;">6-Month Milestone</span>
+                        <button class="btn-use-tpl">Use Template &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Template 4 -->
+                <div class="template-card" onclick="applyTemplate('lease')">
+                    <div>
+                        <div class="template-header">
+                            <span class="template-badge">Real Estate</span>
+                            <span class="template-val">$95,000</span>
+                        </div>
+                        <h4 class="template-name">Commercial Lease Agreement</h4>
+                        <p class="template-desc">Corporate office facility lease with maintenance coverage, utilities, and renewal rights.</p>
+                    </div>
+                    <div class="template-footer">
+                        <span style="font-size: 0.75rem; color: #64748B;">36-Month Lease</span>
+                        <button class="btn-use-tpl">Use Template &rarr;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" id="closeTemplatesModalBtn2">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 8: DEVOPS CI/CD & HEALTH MONITOR ==================== -->
+    <div class="modal-backdrop" id="devopsModal">
+        <div class="modal-card modal-anim-up" style="max-width: 620px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(6, 182, 212, 0.12); color: #06B6D4;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">DevOps CI/CD & System Monitor</h3>
+                        <p class="modal-subtitle">Live health status across Spring Boot Actuator, Docker, and Jenkins</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeDevopsModalBtn">&times;</button>
+            </div>
+
+            <div class="devops-monitor-box">
+                <div class="devops-row">
+                    <span class="devops-label">
+                        <svg style="width: 16px; height: 16px; stroke: #6366F1;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/></svg>
+                        Spring Boot Actuator (/actuator/health)
+                    </span>
+                    <span class="devops-val status-live-green">UP (Healthy)</span>
+                </div>
+                <div class="devops-row">
+                    <span class="devops-label">
+                        <svg style="width: 16px; height: 16px; stroke: #06B6D4;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                        Docker Container (Port 8080)
+                    </span>
+                    <span class="devops-val" style="color: #059669; font-weight: 700;">contract-workflow-container</span>
+                </div>
+                <div class="devops-row">
+                    <span class="devops-label">
+                        <svg style="width: 16px; height: 16px; stroke: #F59E0B;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        Jenkins CI/CD Pipeline (Port 8081)
+                    </span>
+                    <span class="devops-val" style="color: #2563EB; font-weight: 700;">Build #5 (SUCCESS - 10 Stages)</span>
+                </div>
+                <div class="devops-row">
+                    <span class="devops-label">
+                        <svg style="width: 16px; height: 16px; stroke: #10B981;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+                        Selenium Automated Quality Gate
+                    </span>
+                    <span class="devops-val status-live-green">5 / 5 Journeys Verified</span>
+                </div>
+                <div class="devops-row">
+                    <span class="devops-label">
+                        <svg style="width: 16px; height: 16px; stroke: #8B5CF6;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        Ansible Configuration Management
+                    </span>
+                    <span class="devops-val" style="color: #7C3AED; font-weight: 700;">Idempotent (ok=7 changed=0)</span>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" id="closeDevopsModalBtn2">Close</button>
+                <button type="button" class="btn btn-primary" onclick="window.open('http://localhost:8081/job/Contract-Approval-Workflow-Pipeline/', '_blank')">
+                    <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-11a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    <span>Open Jenkins Dashboard</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 9: SYSTEM SETTINGS ==================== -->
+    <div class="modal-backdrop" id="settingsModal">
+        <div class="modal-card modal-anim-up" style="max-width: 540px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(100, 116, 139, 0.12); color: #475569;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">System Settings</h3>
+                        <p class="modal-subtitle">Display preferences, currency formatting, and metadata</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeSettingsModalBtn">&times;</button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px;">
+                <div class="form-group">
+                    <label for="currencySelect">Currency Display</label>
+                    <select id="currencySelect">
+                        <option value="USD">USD ($) — US Dollars</option>
+                        <option value="EUR">EUR (€) — Euros</option>
+                        <option value="INR">INR (₹) — Indian Rupees</option>
+                        <option value="GBP">GBP (£) — British Pounds</option>
+                    </select>
+                </div>
+
+                <div style="padding: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-md);">
+                    <div style="font-weight: 700; color: #0F172A; font-size: 0.88rem; margin-bottom: 4px;">Student & Capstone Context</div>
+                    <div style="color: #64748B; font-size: 0.8rem; line-height: 1.5;">
+                        <strong>Lead:</strong> Shruti Gupta<br>
+                        <strong>Roll No:</strong> 23102C0051<br>
+                        <strong>Release:</strong> v1.0.0 (Dockerized Contract Workflow)<br>
+                        <strong>Environment:</strong> Local Dev & Docker Orchestration
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" id="closeSettingsModalBtn2">Close</button>
+                <button type="button" class="btn btn-primary" id="saveSettingsBtn">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 10: STAKEHOLDER DIRECT MESSAGE ==================== -->
+    <div class="modal-backdrop" id="messageModal">
+        <div class="modal-card modal-anim-up" style="max-width: 520px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(99, 102, 241, 0.12); color: #6366F1;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title" id="messageModalTitle">Message Stakeholder</h3>
+                        <p class="modal-subtitle">Send urgent query regarding contract review or sign-off</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeMessageModalBtn">&times;</button>
+            </div>
+
+            <form id="stakeholderMessageForm">
+                <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 12px;">
+                    <div class="form-group">
+                        <label for="msgContractSelect">Regarding Contract</label>
+                        <select id="msgContractSelect">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="msgContent">Inquiry / Note</label>
+                        <textarea id="msgContent" rows="3" placeholder="e.g. Please expedite review on indemnification clauses before Friday..." required></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" id="closeMessageModalBtn2">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-glow">
+                        <span>Send Message</span>
+                        <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 11: FULL STAKEHOLDER DIRECTORY ==================== -->
+    <div class="modal-backdrop" id="stakeholdersModal">
+        <div class="modal-card modal-anim-up" style="max-width: 600px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(16, 185, 129, 0.12); color: #10B981;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Stakeholder Directory</h3>
+                        <p class="modal-subtitle">Authorized legal signatories, reviewers, and contract managers</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeStakeholdersModalBtn">&times;</button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 14px;">
+                <div class="stakeholder-card">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120" alt="Ravi Patel" class="stakeholder-avatar">
+                    <div class="stakeholder-details">
+                        <span class="stakeholder-name">Ravi Patel</span>
+                        <span class="stakeholder-role">Senior Legal Counsel • ravi.patel@company.com</span>
+                    </div>
+                    <span class="stakeholder-badge badge-reviewer">Reviewer</span>
+                </div>
+                <div class="stakeholder-card">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=120" alt="Neha Verma" class="stakeholder-avatar">
+                    <div class="stakeholder-details">
+                        <span class="stakeholder-name">Neha Verma</span>
+                        <span class="stakeholder-role">Director of Legal & Compliance • neha.verma@company.com</span>
+                    </div>
+                    <span class="stakeholder-badge badge-approver">Approver</span>
+                </div>
+                <div class="stakeholder-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120" alt="Arjun Mehta" class="stakeholder-avatar">
+                    <div class="stakeholder-details">
+                        <span class="stakeholder-name">Arjun Mehta</span>
+                        <span class="stakeholder-role">VP of Operations & Procurement • arjun.mehta@company.com</span>
+                    </div>
+                    <span class="stakeholder-badge badge-signer">Signer</span>
+                </div>
+                <div class="stakeholder-card">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=120" alt="Priya Nair" class="stakeholder-avatar">
+                    <div class="stakeholder-details">
+                        <span class="stakeholder-name">Priya Nair</span>
+                        <span class="stakeholder-role">Chief Financial Officer • priya.nair@company.com</span>
+                    </div>
+                    <span class="stakeholder-badge badge-observer">Observer</span>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" id="closeStakeholdersModalBtn2">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 12: FULL TIMELINE AUDIT ==================== -->
+    <div class="modal-backdrop" id="timelineModal">
+        <div class="modal-card modal-anim-up" style="max-width: 620px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(99, 102, 241, 0.12); color: #6366F1;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Complete Workflow Audit Trail</h3>
+                        <p class="modal-subtitle">Full immutable timestamped log of contract state transitions</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeTimelineModalBtn">&times;</button>
+            </div>
+
+            <div id="fullTimelineContent" style="margin-top: 14px; max-height: 400px; overflow-y: auto;">
+                <!-- Populated dynamically -->
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" id="closeTimelineModalBtn2">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 13: USER PROFILE ==================== -->
+    <div class="modal-backdrop" id="profileModal">
+        <div class="modal-card modal-anim-up" style="max-width: 480px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge" style="background: rgba(139, 92, 246, 0.12); color: #8B5CF6;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Lead Profile</h3>
+                        <p class="modal-subtitle">Authorized DevOps and Legal Workspace Administrator</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeProfileModalBtn">&times;</button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px 0;">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150" alt="Shruti Gupta" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #6366F1; box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); margin-bottom: 12px;">
+                <h3 style="font-size: 1.2rem; font-weight: 800; color: #0F172A;">Shruti Gupta</h3>
+                <span style="font-size: 0.85rem; font-weight: 600; color: #6366F1;">DevOps & Legal Lead</span>
+                <span style="font-size: 0.78rem; color: #64748B; margin-top: 4px;">Student ID: <strong>23102C0051</strong></span>
+                <div style="display: flex; gap: 8px; margin-top: 14px;">
+                    <span class="stage-pill" style="background: rgba(16, 185, 129, 0.1); color: #059669;">Admin Access</span>
+                    <span class="stage-pill" style="background: rgba(99, 102, 241, 0.1); color: #6366F1;">CI/CD Manager</span>
+                    <span class="stage-pill" style="background: rgba(245, 158, 11, 0.1); color: #D97706;">Signatory</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeProfileModalBtn2">Close</button>
             </div>
         </div>
     </div>
