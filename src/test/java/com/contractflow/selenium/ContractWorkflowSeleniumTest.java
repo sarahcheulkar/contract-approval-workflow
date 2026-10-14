@@ -16,6 +16,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 
+import org.springframework.boot.test.context.SpringBootTest;
+
 /**
  * Selenium WebDriver E2E Automated Test Suite for Contract Approval Workflow
  * Author: Shruti Gupta (Roll No: 23102C0051)
@@ -27,6 +29,7 @@ import java.time.Duration;
  * 4. Reviewer Approval Workflow Decision
  * 5. Reviewer Rejection Decision
  */
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ContractWorkflowSeleniumTest {
 

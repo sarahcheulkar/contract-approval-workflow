@@ -1,81 +1,43 @@
 ---
 - name: "Provision and Deploy Contract Approval Workflow (Shruti Gupta - 23102C0051)"
   hosts: app_servers
-  become: yes
-  vars:
-    required_packages:
-      - curl
-      - git
-      - ca-certificates
-      - apt-transport-https
+  gather_facts: yes
 
   tasks:
-    - name: "Ensure required system packages are present"
-      package:
-        name: "{{ required_packages }}"
-        state: present
+    - name: "Task 13.1: Verify Server Architecture and OS Prerequisites"
+      debug:
+        msg: "Provisioning target node: {{ ansible_distribution | default('Unix/Darwin') }} (Arch: {{ ansible_architecture }})"
 
-    - name: "Create dedicated application service group"
-      group:
-        name: "{{ app_user }}"
-        state: present
-
-    - name: "Create dedicated application service user"
-      user:
-        name: "{{ app_user }}"
-        group: "{{ app_user }}"
-        shell: /bin/bash
-        create_home: yes
-        state: present
-
-    - name: "Ensure application runtime directory exists with correct permissions"
+    - name: "Task 13.2: Ensure application runtime directory exists"
       file:
         path: "{{ app_dir }}"
         state: directory
-        owner: "{{ app_user }}"
-        group: "{{ app_user }}"
         mode: '0755'
 
-    - name: "Ensure application logs directory exists"
+    - name: "Task 13.3: Ensure application logs directory exists"
       file:
         path: "{{ app_dir }}/logs"
         state: directory
-        owner: "{{ app_user }}"
-        group: "{{ app_user }}"
         mode: '0775'
 
-    - name: "Pull latest Docker image"
-      community.docker.docker_image:
-        name: "{{ docker_image }}"
-        source: pull
-        state: present
-      ignore_errors: yes
+    - name: "Task 13.4: Deploy and verify Contract Workflow Docker container"
+      command: >
+        docker run -d --name {{ docker_container }} -p {{ app_port }}:8080 {{ docker_image }}
+      register: docker_run_result
+      failed_when: false
+      changed_when: docker_run_result.rc == 0
 
-    - name: "Deploy and run Contract Workflow container"
-      community.docker.docker_container:
-        name: "{{ docker_container }}"
-        image: "{{ docker_image }}"
-        state: started
-        restart_policy: unless-stopped
-        ports:
-          - "{{ app_port }}:8080"
-        env:
-          SERVER_PORT: "8080"
-          SPRING_PROFILES_ACTIVE: "prod"
-      ignore_errors: yes
-
-    - name: "Wait for Application Health Endpoint to respond"
+    - name: "Task 13.5: Query Application Health Endpoint"
       uri:
         url: "http://localhost:{{ app_port }}/api/health"
         method: GET
         status_code: 200
         return_content: yes
-      register: health_check_response
-      until: health_check_response.status == 200
-      retries: 10
-      delay: 5
-      ignore_errors: yes
+      register: health_check
+      until: health_check.status == 200
+      retries: 5
+      delay: 3
 
-    - name: "Display Health Check Status"
+    - name: "Task 13.6: Verify Health Status and Student Metadata"
       debug:
-        msg: "Contract Workflow is healthy and operational: {{ health_check_response.json | default('OK') }}"
+        msg: "Contract Workflow is healthy: {{ health_check.json.service }} | Student: {{ health_check.json.student }}"
