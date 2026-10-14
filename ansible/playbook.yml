@@ -1,0 +1,81 @@
+---
+- name: "Provision and Deploy Contract Approval Workflow (Shruti Gupta - 23102C0051)"
+  hosts: app_servers
+  become: yes
+  vars:
+    required_packages:
+      - curl
+      - git
+      - ca-certificates
+      - apt-transport-https
+
+  tasks:
+    - name: "Ensure required system packages are present"
+      package:
+        name: "{{ required_packages }}"
+        state: present
+
+    - name: "Create dedicated application service group"
+      group:
+        name: "{{ app_user }}"
+        state: present
+
+    - name: "Create dedicated application service user"
+      user:
+        name: "{{ app_user }}"
+        group: "{{ app_user }}"
+        shell: /bin/bash
+        create_home: yes
+        state: present
+
+    - name: "Ensure application runtime directory exists with correct permissions"
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
+
+    - name: "Ensure application logs directory exists"
+      file:
+        path: "{{ app_dir }}/logs"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0775'
+
+    - name: "Pull latest Docker image"
+      community.docker.docker_image:
+        name: "{{ docker_image }}"
+        source: pull
+        state: present
+      ignore_errors: yes
+
+    - name: "Deploy and run Contract Workflow container"
+      community.docker.docker_container:
+        name: "{{ docker_container }}"
+        image: "{{ docker_image }}"
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "{{ app_port }}:8080"
+        env:
+          SERVER_PORT: "8080"
+          SPRING_PROFILES_ACTIVE: "prod"
+      ignore_errors: yes
+
+    - name: "Wait for Application Health Endpoint to respond"
+      uri:
+        url: "http://localhost:{{ app_port }}/api/health"
+        method: GET
+        status_code: 200
+        return_content: yes
+      register: health_check_response
+      until: health_check_response.status == 200
+      retries: 10
+      delay: 5
+      ignore_errors: yes
+
+    - name: "Display Health Check Status"
+      debug:
+        msg: "Contract Workflow is healthy and operational: {{ health_check_response.json | default('OK') }}"

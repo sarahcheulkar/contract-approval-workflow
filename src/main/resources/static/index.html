@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContractFlow — Dockerized Contract Approval Workflow | Shruti Gupta</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Ambient Background Glow Mesh -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- Layout Container -->
+    <div class="app-layout">
+        
+        <!-- ==================== LEFT SIDEBAR ==================== -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon-wrapper">
+                    <svg class="brand-cube" viewBox="0 0 40 40" fill="none">
+                        <path d="M20 3L35 11.5V28.5L20 37L5 28.5V11.5L20 3Z" fill="url(#brandGrad1)"/>
+                        <path d="M20 3L35 11.5L20 20L5 11.5L20 3Z" fill="url(#brandGrad2)" fill-opacity="0.8"/>
+                        <path d="M20 20V37L5 28.5V11.5L20 20Z" fill="url(#brandGrad3)" fill-opacity="0.6"/>
+                        <defs>
+                            <linearGradient id="brandGrad1" x1="5" y1="3" x2="35" y2="37" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#8B5CF6"/>
+                                <stop offset="1" stop-color="#3B82F6"/>
+                            </linearGradient>
+                            <linearGradient id="brandGrad2" x1="5" y1="3" x2="35" y2="20" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#C084FC"/>
+                                <stop offset="1" stop-color="#60A5FA"/>
+                            </linearGradient>
+                            <linearGradient id="brandGrad3" x1="5" y1="11.5" x2="20" y2="37" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#4C1D95"/>
+                                <stop offset="1" stop-color="#1E3A8A"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="brand-info">
+                    <span class="brand-title">CaseDocker</span>
+                    <span class="brand-badge">DevOps v1.0</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#contracts" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>Contracts</span>
+                </a>
+                <a href="#workflow" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
+                    <span>Workflow</span>
+                    <span class="nav-active-pill"></span>
+                </a>
+                <a href="#tasks" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span>Tasks</span>
+                    <span class="nav-badge" id="tasksBadge">12</span>
+                </a>
+                <a href="#analytics" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span>Analytics</span>
+                </a>
+                <a href="#reports" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span>Reports</span>
+                </a>
+                <a href="#templates" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                    <span>Templates</span>
+                </a>
+                <a href="#integrations" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                    <span>DevOps CI/CD</span>
+                </a>
+                <a href="#settings" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <!-- User Profile Card -->
+            <div class="user-card" id="userProfileCard">
+                <div class="avatar-wrapper">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150" alt="Shruti Gupta" class="user-avatar">
+                    <span class="user-status-dot"></span>
+                </div>
+                <div class="user-details">
+                    <span class="user-name">Shruti Gupta</span>
+                    <span class="user-role">DevOps & Legal Lead</span>
+                    <span class="user-meta">Roll No: 23102C0051</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ==================== MAIN CONTENT AREA ==================== -->
+        <main class="main-content">
+            
+            <!-- Top Header Bar -->
+            <header class="top-header">
+                <div class="header-titles">
+                    <h1 class="page-title">Contract Workflow</h1>
+                    <span class="page-subtitle">8-Stage Automated Enterprise Lifecycle</span>
+                </div>
+
+                <div class="header-actions">
+                    <!-- Global Search Bar -->
+                    <div class="search-box">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="globalSearchInput" placeholder="Search contracts, tasks, parties, IDs..." autocomplete="off">
+                    </div>
+
+                    <!-- Notification Bell -->
+                    <button class="icon-btn" id="notifBellBtn" title="Notifications">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span class="badge-count" id="notifCount">5</span>
+                    </button>
+
+                    <!-- Primary Action Button: + New Contract -->
+                    <button class="btn btn-primary btn-glow" id="newContractBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <span>New Contract</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ==================== 8-STAGE LIFECYCLE STEPPER ==================== -->
+            <section class="stepper-section card-glass">
+                <div class="stepper-track" id="stepperTrack">
+                    <!-- Stage 1 -->
+                    <div class="step-node active" data-stage="INITIATION" id="stageNode-1">
+                        <div class="step-indicator">
+                            <span class="step-num">1</span>
+                            <div class="step-pulse"></div>
+                        </div>
+                        <div class="step-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        </div>
+                        <span class="step-name">Initiation</span>
+                        <span class="step-meta" id="count-INITIATION">2 Active</span>
+                    </div>
+
+                    <div class="stepper-connector active"></div>
+
+                    <!-- Stage 2 -->
+                    <div class="step-node" data-stage="REVIEW" id="stageNode-2">
+                        <div class="step-indicator">
+                            <span class="step-num">2</span>
+                        </div>
+                        <div class="step-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+                        </div>
+                        <span class="step-name">Review</span>
+                        <span class="step-meta" id="count-REVIEW">3 Active</span>
+                    </div>
+
+                    <div class="stepper-connector"></div>
+
+                    <!-- Stage 3 -->
+                    <div class="step-node" data-stage="APPROVAL" id="stageNode-3">
+                        <div class="step-indicator">
+                            <span class="step-num">3</span>
+                        </div>
+                        <div class="step-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                        </div>
+                        <span class="step-name">Approval</span>
+                        <span class="step-meta" id="count-APPROVAL">2 Active</span>
+                    </div>
+
+                    <div class="stepper-connector"></div>
+
+                    <!-- Stage 4 -->
+                    <div class="step-node" data-stage="EXECUTION" id="stageNode-4">
+                        <div class="step-indicator">
+                            <span class="step-num">4</span>
+                        </div>
+                        <div class="step-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        </div>
+                        <span class="step-name">Execution</span>
+                        <span class="step-meta" id="count-EXECUTION">1 Active</span>
+                    </div>
+
+                    <div class="stepper-connector"></div>
+
+                    <!-- Stage 5 -->
+                    <div class="step-node" data-stage="ANALYTICS" id="stageNode-5">
+                        <div class="step-indicator">
+                            <span class="step-num">5</span>
+                        </div>
+                        <div class="step-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        </div>
+                        <span class="step-name">Analytics</span>
+                        <span class="step-meta live-tag" id="count-ANALYTICS">Live</span>
+                    </div>
+
+                    <div class="stepper-connector"></div>
+
+                    <!-- Stage 6 -->
+                    <div class="step-node" data-stage="RENEWAL" id="stageNode-6">
+                        <div class="step-indicator">
+                            <span class="step-num">6</span>
+                        </div>
+                        <div class="step-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                        </div>
+                        <span class="step-name">Renewal</span>
+                        <span class="step-meta" id="count-RENEWAL">2 Upcoming</span>
+                    </div>
+
+                    <div class="stepper-connector"></div>
+
+                    <!-- Stage 7 -->
+                    <div class="step-node" data-stage="EXPIRY" id="stageNode-7">
+                        <div class="step-indicator">
+                            <span class="step-num">7</span>
+                        </div>
+                        <div class="step-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <span class="step-name">Expiry</span>
+                        <span class="step-meta text-danger" id="count-EXPIRY">1 Upcoming</span>
+                    </div>
+
+                    <div class="stepper-connector"></div>
+
+                    <!-- Stage 8 -->
+                    <div class="step-node" data-stage="ARCHIVED" id="stageNode-8">
+                        <div class="step-indicator">
+                            <span class="step-num">8</span>
+                        </div>
+                        <div class="step-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+                        </div>
+                        <span class="step-name">Archived</span>
+                        <span class="step-meta" id="count-ARCHIVED">28 Total</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== 4 METRICS CARDS GRID ==================== -->
+            <section class="metrics-grid">
+                
+                <!-- Card 1: Workflow Overview Donut -->
+                <div class="metric-card card-glass card-hover" id="overviewCard">
+                    <div class="metric-header">
+                        <span class="card-title">Workflow Overview</span>
+                        <span class="filter-pill" id="filterStatusAll">All Stages</span>
+                    </div>
+                    <div class="donut-container">
+                        <div class="donut-chart-wrapper">
+                            <svg class="donut-svg" viewBox="0 0 160 160">
+                                <circle class="donut-bg" cx="80" cy="80" r="60"/>
+                                <circle class="donut-segment segment-1" cx="80" cy="80" r="60"/>
+                                <circle class="donut-segment segment-2" cx="80" cy="80" r="60"/>
+                                <circle class="donut-segment segment-3" cx="80" cy="80" r="60"/>
+                                <circle class="donut-segment segment-4" cx="80" cy="80" r="60"/>
+                            </svg>
+                            <div class="donut-center-text">
+                                <span class="donut-num" id="metricTotalCount">39</span>
+                                <span class="donut-lbl">Total</span>
+                            </div>
+                        </div>
+                        <div class="donut-legend">
+                            <div class="legend-row"><span class="dot dot-indigo"></span><span>11 Active</span></div>
+                            <div class="legend-row"><span class="dot dot-blue"></span><span>9 In Progress</span></div>
+                            <div class="legend-row"><span class="dot dot-amber"></span><span>7 Upcoming</span></div>
+                            <div class="legend-row"><span class="dot dot-emerald"></span><span>12 Completed</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Average Cycle Time -->
+                <div class="metric-card card-glass card-hover" id="cycleTimeCard">
+                    <div class="metric-header">
+                        <span class="card-title">Average Cycle Time</span>
+                    </div>
+                    <div class="cycle-time-body">
+                        <div class="cycle-val-group">
+                            <span class="cycle-big-num" id="cycleDaysVal">14.6</span>
+                            <span class="cycle-unit">Days</span>
+                        </div>
+                        <div class="trend-badge trend-up">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                            <span>18% vs last 30 days</span>
+                        </div>
+                    </div>
+                    <!-- Animated Wave Sparkline -->
+                    <div class="sparkline-container">
+                        <svg class="sparkline-svg" viewBox="0 0 300 80" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.45"/>
+                                    <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.0"/>
+                                </linearGradient>
+                            </defs>
+                            <path class="sparkline-area" d="M0,60 Q75,10 150,45 T300,20 L300,80 L0,80 Z" fill="url(#waveGradient)"/>
+                            <path class="sparkline-stroke" d="M0,60 Q75,10 150,45 T300,20" fill="none" stroke="#8B5CF6" stroke-width="3"/>
+                            <circle class="sparkline-pulse-dot" cx="300" cy="20" r="4" fill="#8B5CF6"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Card 3: Contracts Due Soon -->
+                <div class="metric-card card-glass card-hover" id="dueSoonCard">
+                    <div class="metric-header">
+                        <span class="card-title">Contracts Due Soon</span>
+                        <span class="chip-badge chip-due">3 Next 7 days</span>
+                    </div>
+                    <div class="due-list">
+                        <div class="due-item">
+                            <div class="due-info">
+                                <span class="due-title">MSA — TechCorp</span>
+                                <span class="due-category">Master Service Agreement</span>
+                            </div>
+                            <span class="due-tag tag-urgent">2 days</span>
+                        </div>
+                        <div class="due-item">
+                            <div class="due-info">
+                                <span class="due-title">SOW — DataSoft</span>
+                                <span class="due-category">Statement of Work</span>
+                            </div>
+                            <span class="due-tag tag-warning">4 days</span>
+                        </div>
+                        <div class="due-item">
+                            <div class="due-info">
+                                <span class="due-title">NDA — InnoLabs</span>
+                                <span class="due-category">Non-Disclosure Agreement</span>
+                            </div>
+                            <span class="due-tag tag-normal">6 days</span>
+                        </div>
+                    </div>
+                    <div class="card-footer-link">
+                        <a href="#contracts" id="viewAllDueBtn">View all contracts &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Card 4: Tasks Assigned to You -->
+                <div class="metric-card card-glass card-hover" id="assignedTasksCard">
+                    <div class="metric-header">
+                        <span class="card-title">Tasks Assigned to You</span>
+                        <span class="chip-badge chip-pending">5 Pending</span>
+                    </div>
+                    <div class="tasks-list">
+                        <div class="task-item">
+                            <div class="task-info">
+                                <span class="task-action-name">Review MSA — TechCorp</span>
+                                <span class="task-meta">Legal & compliance check</span>
+                            </div>
+                            <span class="task-deadline deadline-today">Today</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-info">
+                                <span class="task-action-name">Approve SOW — DataSoft</span>
+                                <span class="task-meta">Budget validation ($34.5k)</span>
+                            </div>
+                            <span class="task-deadline deadline-tomorrow">Tomorrow</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-info">
+                                <span class="task-action-name">Sign NDA — InnoLabs</span>
+                                <span class="task-meta">Executive sign-off required</span>
+                            </div>
+                            <span class="task-deadline">May 26</span>
+                        </div>
+                    </div>
+                    <div class="card-footer-link">
+                        <a href="#tasks" id="viewAllTasksBtn">View all tasks &rarr;</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== WORKFLOW TIMELINE & STAKEHOLDERS ==================== -->
+            <section class="middle-grid">
+                
+                <!-- Left: Workflow Timeline -->
+                <div class="panel card-glass" id="timelinePanel">
+                    <div class="panel-header">
+                        <span class="panel-title">Workflow Timeline</span>
+                        <span class="panel-action" id="viewFullTimelineBtn">View full timeline</span>
+                    </div>
+                    <div class="timeline-stepper">
+                        <div class="timeline-step done">
+                            <div class="timeline-bullet">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-row">
+                                    <span class="timeline-step-title">Initiation</span>
+                                    <span class="timeline-timestamp">May 19, 2025 10:30 AM</span>
+                                    <span class="status-pill pill-completed">Completed</span>
+                                </div>
+                                <span class="timeline-desc">Contract request drafted by Anita Sharma (Legal Initiator)</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step done">
+                            <div class="timeline-bullet">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-row">
+                                    <span class="timeline-step-title">Review</span>
+                                    <span class="timeline-timestamp">May 20, 2025 02:15 PM</span>
+                                    <span class="status-pill pill-completed">Completed</span>
+                                </div>
+                                <span class="timeline-desc">Terms & commercial clauses validated by Ravi Patel (Counsel)</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step in-progress">
+                            <div class="timeline-bullet">
+                                <div class="bullet-pulse"></div>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-row">
+                                    <span class="timeline-step-title">Approval</span>
+                                    <span class="timeline-timestamp">May 21, 2025 11:45 AM</span>
+                                    <span class="status-pill pill-progress">In Progress</span>
+                                </div>
+                                <span class="timeline-desc">Awaiting executive decision from Legal Director Neha Verma</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step pending">
+                            <div class="timeline-bullet"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-row">
+                                    <span class="timeline-step-title">Execution</span>
+                                    <span class="timeline-timestamp">—</span>
+                                    <span class="status-pill pill-pending">Pending</span>
+                                </div>
+                                <span class="timeline-desc">Waiting for digital counter-signatures and seal</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step upcoming">
+                            <div class="timeline-bullet"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-row">
+                                    <span class="timeline-step-title">Analytics</span>
+                                    <span class="timeline-timestamp">—</span>
+                                    <span class="status-pill pill-upcoming">Upcoming</span>
+                                </div>
+                                <span class="timeline-desc">Will commence post-execution for SLA tracking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Stakeholders Panel -->
+                <div class="panel card-glass" id="stakeholdersPanel">
+                    <div class="panel-header">
+                        <span class="panel-title">Stakeholders</span>
+                        <a href="#manage-stakeholders" class="panel-action">Manage</a>
+                    </div>
+                    <div class="stakeholders-list">
+                        
+                        <div class="stakeholder-card">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120" alt="Ravi Patel" class="stakeholder-avatar">
+                            <div class="stakeholder-details">
+                                <span class="stakeholder-name">Ravi Patel</span>
+                                <span class="stakeholder-role">Legal Counsel</span>
+                            </div>
+                            <span class="stakeholder-badge badge-reviewer">Reviewer</span>
+                            <span class="live-dot-green" title="Active now"></span>
+                            <button class="msg-icon-btn" title="Message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+                        </div>
+
+                        <div class="stakeholder-card">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=120" alt="Neha Verma" class="stakeholder-avatar">
+                            <div class="stakeholder-details">
+                                <span class="stakeholder-name">Neha Verma</span>
+                                <span class="stakeholder-role">Legal Director</span>
+                            </div>
+                            <span class="stakeholder-badge badge-approver">Approver</span>
+                            <span class="live-dot-green" title="Active now"></span>
+                            <button class="msg-icon-btn" title="Message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+                        </div>
+
+                        <div class="stakeholder-card">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120" alt="Arjun Mehta" class="stakeholder-avatar">
+                            <div class="stakeholder-details">
+                                <span class="stakeholder-name">Arjun Mehta</span>
+                                <span class="stakeholder-role">Head of Operations</span>
+                            </div>
+                            <span class="stakeholder-badge badge-signer">Signer</span>
+                            <span class="live-dot-green" title="Active now"></span>
+                            <button class="msg-icon-btn" title="Message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+                        </div>
+
+                        <div class="stakeholder-card">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=120" alt="Priya Nair" class="stakeholder-avatar">
+                            <div class="stakeholder-details">
+                                <span class="stakeholder-name">Priya Nair</span>
+                                <span class="stakeholder-role">Finance Manager</span>
+                            </div>
+                            <span class="stakeholder-badge badge-observer">Observer</span>
+                            <span class="live-dot-green" title="Active now"></span>
+                            <button class="msg-icon-btn" title="Message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+                        </div>
+
+                    </div>
+                    <div class="card-footer-link">
+                        <a href="#stakeholders" id="viewAllStakeholdersBtn">View all stakeholders &rarr;</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== LIVE CONTRACTS DATA TABLE & DECISION HUB ==================== -->
+            <section class="contracts-section card-glass" id="contractsSection">
+                <div class="section-toolbar">
+                    <div class="toolbar-left">
+                        <h2 class="section-title">Active Contracts Registry</h2>
+                        <span class="badge-total" id="tableRecordCount">8 Contracts</span>
+                    </div>
+
+                    <div class="toolbar-filters">
+                        <button class="filter-btn active" data-filter="ALL" id="filterBtnAll">All</button>
+                        <button class="filter-btn" data-filter="SUBMITTED" id="filterBtnSubmitted">Submitted</button>
+                        <button class="filter-btn" data-filter="UNDER_REVIEW" id="filterBtnReview">Under Review</button>
+                        <button class="filter-btn" data-filter="APPROVED" id="filterBtnApproved">Approved</button>
+                        <button class="filter-btn" data-filter="REJECTED" id="filterBtnRejected">Rejected</button>
+                    </div>
+                </div>
+
+                <!-- Responsive Table Container -->
+                <div class="table-container">
+                    <table class="contracts-table" id="contractsTable">
+                        <thead>
+                            <tr>
+                                <th>Contract ID</th>
+                                <th>Title</th>
+                                <th>Vendor / Client</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Due Date</th>
+                                <th>Stage</th>
+                                <th>Status</th>
+                                <th class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contractsTableBody">
+                            <!-- Populated dynamically by app.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ==================== MODAL 1: CREATE NEW CONTRACT ==================== -->
+    <div class="modal-backdrop" id="newContractModal">
+        <div class="modal-card modal-anim-up">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Initiate New Contract</h3>
+                        <p class="modal-subtitle">Submit contract details for legal and managerial validation</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeNewContractModalBtn">&times;</button>
+            </div>
+
+            <!-- Validation Error Alert Banner -->
+            <div class="alert-banner alert-danger d-none" id="formErrorBanner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span id="formErrorMessage">Please check required fields.</span>
+            </div>
+
+            <form id="newContractForm" novalidate>
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label for="contractTitle">Contract Title <span class="required">*</span></label>
+                        <input type="text" id="contractTitle" placeholder="e.g. Annual Cloud Infrastructure SLA 2026" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="vendorName">Vendor / Counterparty <span class="required">*</span></label>
+                        <input type="text" id="vendorName" placeholder="e.g. Microsoft Azure Inc" required>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="categorySelect">Category <span class="required">*</span></label>
+                        <select id="categorySelect" required>
+                            <option value="">Select Category...</option>
+                            <option value="Software & Cloud">Software & Cloud</option>
+                            <option value="Security & Compliance">Security & Compliance</option>
+                            <option value="Professional Services">Professional Services</option>
+                            <option value="Facilities & Real Estate">Facilities & Real Estate</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Legal / NDA">Legal / NDA</option>
+                            <option value="Supply Chain">Supply Chain</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="contractAmount">Contract Value ($) <span class="required">*</span></label>
+                        <input type="number" id="contractAmount" placeholder="e.g. 25000" min="1" step="0.01" required>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="dueDateInput">Expiry / Renewal Date</label>
+                        <input type="date" id="dueDateInput">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label for="termsDescription">Summary & Commercial Clauses</label>
+                        <textarea id="termsDescription" rows="3" placeholder="Provide overview of contract deliverables, milestone payments, and penalties..."></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelNewContractBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-glow" id="submitContractBtn">
+                        <span>Submit for Approval</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 2: REVIEW & APPROVE / REJECT ==================== -->
+    <div class="modal-backdrop" id="reviewModal">
+        <div class="modal-card modal-anim-up">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge badge-review-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title" id="reviewModalTitle">Review Contract</h3>
+                        <p class="modal-subtitle" id="reviewModalSubtitle">Examine clauses, budget allocation and record decision</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeReviewModalBtn">&times;</button>
+            </div>
+
+            <div class="review-details-grid">
+                <div class="detail-box">
+                    <span class="detail-label">Contract ID</span>
+                    <span class="detail-value text-mono" id="reviewDetailId">CT-101</span>
+                </div>
+                <div class="detail-box">
+                    <span class="detail-label">Vendor</span>
+                    <span class="detail-value" id="reviewDetailVendor">AWS Corp</span>
+                </div>
+                <div class="detail-box">
+                    <span class="detail-label">Contract Value</span>
+                    <span class="detail-value text-emerald font-bold" id="reviewDetailAmount">$12,500.00</span>
+                </div>
+                <div class="detail-box">
+                    <span class="detail-label">Current Status</span>
+                    <span class="detail-value" id="reviewDetailStatus"><span class="badge badge-submitted">Submitted</span></span>
+                </div>
+            </div>
+
+            <div class="review-terms-box">
+                <span class="detail-label">Contract Summary & Scope</span>
+                <p class="terms-text" id="reviewDetailDesc">Multi-region cloud hosting and SLA agreement.</p>
+            </div>
+
+            <div class="form-group review-remarks-group">
+                <label for="reviewerNotesInput">Reviewer Audit Remarks & Decision Notes</label>
+                <textarea id="reviewerNotesInput" rows="3" placeholder="Enter reason for approval or detailed grounds for rejection..."></textarea>
+            </div>
+
+            <div class="modal-footer modal-decision-footer">
+                <input type="hidden" id="reviewContractDatabaseId">
+                <button type="button" class="btn btn-danger btn-reject-glow" id="modalRejectBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <span>Reject Contract</span>
+                </button>
+                <button type="button" class="btn btn-success btn-approve-glow" id="modalApproveBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Approve Contract</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Application JavaScript Logic -->
+    <script src="js/app.js"></script>
+</body>
+</html>
