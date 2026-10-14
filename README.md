@@ -3,7 +3,7 @@
 > **Academic DevOps Capstone Project**  
 > **Student Name:** Shruti Gupta  
 > **Roll No.:** 23102C0051  
-> **Repository:** `contract-approval-workflow`  
+> **Repository:** [https://github.com/sarahcheulkar/contract-approval-workflow](https://github.com/sarahcheulkar/contract-approval-workflow)  
 
 ---
 
