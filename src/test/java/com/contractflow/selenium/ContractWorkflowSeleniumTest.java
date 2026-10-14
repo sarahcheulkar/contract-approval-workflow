@@ -35,7 +35,7 @@ public class ContractWorkflowSeleniumTest {
 
     private static WebDriver driver;
     private static WebDriverWait wait;
-    private static final String APP_URL = System.getProperty("app.url", "http://localhost:8080");
+    private static final String APP_URL = System.getProperty("app.url", "http://localhost:8089");
     private static final Path SCREENSHOT_DIR = Paths.get("target", "screenshots");
 
     @BeforeAll

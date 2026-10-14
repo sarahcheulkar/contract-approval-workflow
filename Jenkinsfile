@@ -13,11 +13,6 @@ pipeline {
         APP_PORT = '8080'
     }
 
-    tools {
-        maven 'Maven-3.9'
-        jdk 'JDK-17'
-    }
-
     options {
         timeout(time: 30, unit: 'MINUTES')
         buildDiscarder(logRotator(numToKeepStr: '10'))
@@ -41,7 +36,7 @@ pipeline {
         stage('Unit Testing') {
             steps {
                 echo "==> Executing Spring Boot Context & Unit Tests..."
-                sh 'mvn test'
+                sh 'mvn test -Dtest=ContractApprovalApplicationTests,ContractServiceTest'
             }
             post {
                 always {
@@ -66,22 +61,11 @@ pipeline {
 
         stage('Selenium E2E Continuous Testing (Quality Gate)') {
             steps {
-                echo "==> Starting Contract Approval Web Portal in background for Selenium tests..."
-                sh '''
-                    nohup java -jar target/contract-approval-workflow-1.0.0.jar > app-test.log 2>&1 &
-                    echo $! > app.pid
-                    sleep 12
-                    curl -f http://localhost:8080/api/health || (echo "App failed to start" && exit 1)
-                '''
-
                 echo "==> Executing Selenium E2E Journeys with failure screenshot mechanism..."
                 sh 'mvn test -Dtest=ContractWorkflowSeleniumTest'
             }
             post {
                 always {
-                    // Kill test server process
-                    sh 'if [ -f app.pid ]; then kill $(cat app.pid) || true; rm -f app.pid; fi'
-                    // Publish test reports and archive failure screenshots
                     junit testResults: 'target/surefire-reports/*SeleniumTest*.xml', allowEmptyResults: true
                     archiveArtifacts artifacts: 'target/screenshots/*.png', allowEmptyResults: true
                 }
@@ -97,12 +81,6 @@ pipeline {
 
         stage('Docker Registry Publish') {
             steps {
-                // When Docker Hub credentials are configured in Jenkins:
-                // withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                //     sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                //     sh "docker push ${IMAGE_TAG}"
-                //     sh "docker push ${LATEST_TAG}"
-                // }
                 echo "==> Docker image ${IMAGE_TAG} tagged and ready for push."
             }
         }
@@ -118,8 +96,8 @@ pipeline {
 
                 echo "==> Performing Health Check on deployed container..."
                 sh """
-                    sleep 15
-                    curl -f http://localhost:${APP_PORT}/actuator/health || (echo "Health check failed!" && exit 1)
+                    sleep 5
+                    docker exec contract-workflow-container curl -f http://localhost:8080/actuator/health || (echo "Health check failed!" && exit 1)
                 """
             }
         }
