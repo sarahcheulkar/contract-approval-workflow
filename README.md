@@ -115,6 +115,25 @@ docker-compose down
 
 ---
 
+## 🔄 Jenkins CI/CD Declarative Pipeline & Stage View
+
+The automated Jenkins declarative pipeline executes a complete 10-stage continuous integration and delivery lifecycle:
+
+![Jenkins Pipeline Stage View](docs/screenshots/jenkins_stage_view.png)
+
+1. **Declarative Checkout SCM**: Pulls latest revision from GitHub under `Shruti Gupta`.
+2. **Compile & Static Analysis**: Runs `mvn clean compile` on Java 17/21 sources.
+3. **Unit Testing**: Executes Spring Boot Context & `ContractServiceTest` business logic suite; publishes JUnit reports.
+4. **Package Artifact**: Compiles production-ready Spring Boot executable JAR (`mvn package -DskipTests`).
+5. **Archive Artifacts**: Archives `target/contract-approval-workflow-1.0.0.jar` (48.48 MB) with cryptographic fingerprinting.
+6. **Selenium E2E Quality Gate**: Executes 5 automated user journeys on headless Chromium; archives screenshots.
+7. **Docker Build & Tag**: Packages lightweight OCI container image (`shrutigupta/contract-workflow:1.0.0-5`).
+8. **Docker Registry Publish**: Tags and prepares release images for Docker Hub.
+9. **Continuous Deployment**: Automatically stops previous container and starts fresh instance on port 8080.
+10. **Actuator Health Verification**: Validates `status: UP` via `curl http://localhost:8080/actuator/health`.
+
+---
+
 ## 🧪 Running Selenium Automated Tests
 
 The Selenium test suite executes **5 critical E2E user journeys** in headless mode and captures timestamped failure screenshots under `target/screenshots/`:
