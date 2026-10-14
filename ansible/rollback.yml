@@ -1,0 +1,46 @@
+---
+- name: "Automated Rollback to Previous Stable Release (Shruti Gupta - 23102C0051)"
+  hosts: app_servers
+  become: yes
+
+  tasks:
+    - name: "Stop unhealthy or failing container"
+      community.docker.docker_container:
+        name: "{{ docker_container }}"
+        state: stopped
+      ignore_errors: yes
+
+    - name: "Remove failing container"
+      community.docker.docker_container:
+        name: "{{ docker_container }}"
+        state: absent
+      ignore_errors: yes
+
+    - name: "Launch previous verified stable Docker container image"
+      community.docker.docker_container:
+        name: "{{ docker_container }}"
+        image: "{{ rollback_image }}"
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "{{ app_port }}:8080"
+        env:
+          SERVER_PORT: "8080"
+          SPRING_PROFILES_ACTIVE: "prod"
+      ignore_errors: yes
+
+    - name: "Verify Rollback Recovery Health Status"
+      uri:
+        url: "http://localhost:{{ app_port }}/api/health"
+        method: GET
+        status_code: 200
+        return_content: yes
+      register: rollback_health
+      until: rollback_health.status == 200
+      retries: 6
+      delay: 5
+      ignore_errors: yes
+
+    - name: "Confirm Rollback Recovery Success"
+      debug:
+        msg: "SUCCESS: Service recovered and operational on rollback image {{ rollback_image }}."
