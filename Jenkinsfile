@@ -67,7 +67,7 @@ pipeline {
             post {
                 always {
                     junit testResults: 'target/surefire-reports/*SeleniumTest*.xml', allowEmptyResults: true
-                    archiveArtifacts artifacts: 'target/screenshots/*.png', allowEmptyResults: true
+                    archiveArtifacts artifacts: 'target/screenshots/*.png', allowEmptyArchive: true
                 }
             }
         }
